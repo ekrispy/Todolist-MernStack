@@ -2,7 +2,11 @@ import { useState, useRef, useEffect } from 'react'
 
 import './App.css'
 
-const BASE_URL = 'http://localhost:5000/api/todos'
+const BASE_URL = import.meta.env.DEV ?
+'http://localhost:5000/api/todos' :
+'https://todolist-backend-a6bz.onrender.com/api/todos'
+
+console.log(import.meta.env.DEV)
 
 function App() {
 
@@ -48,6 +52,8 @@ function App() {
       })
       const newTodo = await response.json()
       setTodos([...todos, newTodo])
+      textRef.current.value = ''
+      completeRef.current.checked = false
     } catch(err) {
       console.log(err)
     } finally {
